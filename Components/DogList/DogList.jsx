@@ -1,17 +1,20 @@
 
 
-export default function ShoppingList({ dogsList = [] }) {
+export default function ShoppingList({ dogsList }) {
   return (
-    <div className="shopping-cart">
-      <h3 style={{ textAlign: "center" }}>
-        Cute Dogs
-        <span role="img">
-          🐶
-        </span>
-      </h3>
-      {dogsList.map((dog) => (
-        <img src={dog} alt="" />
-      ))}
-    </div>
-  );
+		<div className="wrapper">
+			<h3>
+				Cute Dogs
+				<span role='img'>🐶</span>
+			</h3>
+			<div className='Dog-List'>
+				{dogsList.map((dog) => (
+					<img
+						src={dog}
+						alt=''
+					/>
+				))}
+			</div>
+		</div>
+	);
 }
