@@ -1,24 +1,44 @@
-import DogList from '../Components/DogList/DogList'
-import Form from '../Components/Form/Form'
-import { Inter } from 'next/font/google'
+"use client";
+import { useEffect, useState } from "react";
+import DogList from "../Components/DogList/DogList";
+import Form from "../Components/Form/Form";
+import { Inter } from "next/font/google";
 
-
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  // You will need to put a state here to save all the dogs data into
-  // And you will fetch the data with useEffect
+	const [input, setInput] = useState(2);
+	const [dogsData, setDogsData] = useState([]);
 
-   return (
-    <div className="card">
-      {/* When the button is clicked in the form, it should fetch the information. 
-          How can we do that by utilizing useState?
-          
-      */}
-      {/* <Form /> Uncomment <Form /> if you are going after the bonus */}
-      {/* This page should receive the images array */}
-      <DogList />
-    </div>
-  );
+	const fetchData = async () => {
+		const response = await fetch(
+			`https://dog.ceo/api/breeds/image/random/${input}`
+		);
+		const newData = await response.json();
+		if (newData && newData.message) {
+			if (newData && newData.message) {
+				setDogsData(newData.message);
+			} else {
+				console.error(
+					"Invalid response structure:",
+					newData
+				);
+			}
+		}
+	};
+
+	useEffect(() => {
+		fetchData();
+	}, [input]);
+
+	const handleFormSubmit = (value) => {
+		setInput(value);
+	};
+
+	return (
+		<div className='card'>
+			<Form setNumberOfDogs={handleFormSubmit} />
+			<DogList dogsList={dogsData} />
+		</div>
+	);
 }
-
